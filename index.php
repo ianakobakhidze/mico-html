@@ -1,416 +1,277 @@
 <?php
-include 'data.php';
-include 'functions.php';
-include 'components.php';
+// ==============================
+// 1) FORM SUBMISSION HANDLING
+// ==============================
+$success = false;
+$error   = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $patient_name  = trim($_POST['patient_name']  ?? '');
+    $doctor_name   = trim($_POST['doctor_name']   ?? '');
+    $department    = trim($_POST['department']     ?? '');
+    $phone         = trim($_POST['phone']          ?? '');
+    $symptoms      = trim($_POST['symptoms']       ?? '');
+    $date          = trim($_POST['date']           ?? '');
+
+    if (!$patient_name || !$doctor_name || !$department || !$phone || !$date) {
+        $error = 'გთხოვთ შეავსოთ ყველა სავალდებულო ველი.';
+    } else {
+        // ==============================
+        // 2) აქ ჩასვი მონაცემთა ბაზის კოდი
+        // ==============================
+        /*
+            მაგალითი PDO-თი:
+
+            $pdo = new PDO('mysql:host=localhost;dbname=YOUR_DB;charset=utf8', 'USER', 'PASSWORD');
+            $stmt = $pdo->prepare("
+                INSERT INTO appointments (patient_name, doctor_name, department, phone, symptoms, appointment_date)
+                VALUES (:patient_name, :doctor_name, :department, :phone, :symptoms, :date)
+            ");
+            $stmt->execute([
+                ':patient_name' => $patient_name,
+                ':doctor_name'  => $doctor_name,
+                ':department'   => $department,
+                ':phone'        => $phone,
+                ':symptoms'     => $symptoms,
+                ':date'         => $date,
+            ]);
+        */
+
+        $success = true;
+    }
+}
 ?>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="ka">
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <title>Mico</title>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f2f5;
+            font-family: 'DM Sans', sans-serif;
+            padding: 2rem;
+        }
 
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+            padding: 3rem 3.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 2.2rem;
+            border-bottom: 3px solid #000;
+            padding-bottom: .5rem;
+            display: inline-block;
+        }
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+        h1 span { color: #2ec4b6; }
 
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem 2rem;
+            margin-bottom: 2rem;
+        }
 
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+        label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: .45rem;
+            letter-spacing: .5px;
+        }
 
+        input, select {
+            width: 100%;
+            padding: .75rem 1rem;
+            border: 1.5px solid #d0d0d0;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .95rem;
+            color: #222;
+            transition: border-color .2s, box-shadow .2s;
+            appearance: none;
+            background: #fff;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #2ec4b6;
+            box-shadow: 0 0 0 3px rgba(46,196,182,.15);
+        }
+
+        input::placeholder { color: #2ec4b6; opacity: .7; }
+
+        .select-wrap { position: relative; }
+        .select-wrap::after {
+            content: '▾';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2ec4b6;
+            pointer-events: none;
+        }
+
+        .date-wrap { position: relative; }
+        .date-wrap input[type="date"] { color: #2ec4b6; }
+        .date-wrap input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(60%) sepia(80%) saturate(400%) hue-rotate(140deg);
+            cursor: pointer;
+        }
+
+        .btn {
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: .85rem 2.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+        }
+        .btn:hover  { background: #2ec4b6; }
+        .btn:active { transform: scale(.97); }
+
+        .alert {
+            padding: .9rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: .9rem;
+        }
+        .alert-success { background: #e6faf8; color: #1a8c83; border: 1px solid #2ec4b6; }
+        .alert-error   { background: #ffeaea; color: #c0392b; border: 1px solid #e74c3c; }
+
+        @media (max-width: 680px) {
+            .grid { grid-template-columns: 1fr; }
+            .card { padding: 2rem 1.5rem; }
+        }
+    </style>
 </head>
-
 <body>
+<div class="card">
 
-  <div class="hero_area">
-    
-    
+    <h1>BOOK <span>APPOINTMENT</span></h1>
 
-    <?php headerSection($header); ?>
-    <?php sliderSection($sliderData); ?>
+    <?php if ($success): ?>
+        <div class="alert alert-success">✅ ჩანაწერი წარმატებით დაიჯავშნა!</div>
+    <?php elseif ($error): ?>
+        <div class="alert alert-error">⚠️ <?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
 
+    <form method="POST" action="">
 
-    
-  
+        <div class="grid">
 
-
-  <!-- book section -->
-
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <form>
-            <h4>
-              BOOK <span>APPOINTMENT</span>
-            </h4>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPatientName">Patient Name </label>
-                <input type="text" class="form-control" id="inputPatientName" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDoctorName">Doctor's Name</label>
-                <select name="" class="form-control wide" id="inputDoctorName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDepartmentName">Department's Name</label>
-                <select name="" class="form-control wide" id="inputDepartmentName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
+            <!-- Patient Name -->
+            <div>
+                <label for="patient_name">Patient Name</label>
+                <input
+                    type="text"
+                    id="patient_name"
+                    name="patient_name"
+                    value="<?= htmlspecialchars($_POST['patient_name'] ?? '') ?>"
+                    required>
             </div>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPhone">Phone Number</label>
-                <input type="number" class="form-control" id="inputPhone" placeholder="XXXXXXXXXX">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputSymptoms">Symptoms</label>
-                <input type="text" class="form-control" id="inputSymptoms" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDate">Choose Date </label>
-                <div class="input-group date" id="inputDate" data-date-format="mm-dd-yyyy">
-                  <input type="text" class="form-control" readonly>
-                  <span class="input-group-addon date_icon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                  </span>
+
+            <!-- Doctor's Name -->
+            <div>
+                <label for="doctor_name">Doctor's Name</label>
+                <div class="select-wrap">
+                    <select id="doctor_name" name="doctor_name" required>
+                        <option value="">Normal distribution</option>
+                        <!-- ==============================
+                             3) აქ ჩასვი ექიმების სია
+                             მაგ. მონაცემთა ბაზიდან:
+
+                             $docs = $pdo->query("SELECT id, name FROM doctors")->fetchAll();
+                             foreach ($docs as $d) {
+                                 $sel = ($_POST['doctor_name'] ?? '') == $d['id'] ? 'selected' : '';
+                                 echo "<option value='{$d['id']}' {$sel}>{$d['name']}</option>";
+                             }
+                        ============================== -->
+                        <option value="dr_jones">Dr. Jones</option>
+                        <option value="dr_smith">Dr. Smith</option>
+                    </select>
                 </div>
-              </div>
             </div>
-            <div class="btn-box">
-              <button type="submit" class="btn ">Submit Now</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
 
-
-  <!-- end book section -->
-
-  <?php aboutSection($about); ?>
-
-
-  
-
-
-  <!-- treatment section -->
-
-  <section class="treatment_section layout_padding">
-    <div class="side_img">
-      <img src="images/treatment-side-img.jpg" alt="">
-    </div>
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Hospital <span>Treatment</span>
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Nephrologist Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t2.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Eye Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t3.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Pediatrician Clinic
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t4.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Parental Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end treatment section -->
-
-  <!-- team section -->
-
-  <section class="team_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Our <span>Doctors</span>
-        </h2>
-      </div>
-      <div class="carousel-wrap ">
-        <div class="owl-carousel team_carousel">
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team1.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Hennry
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
+            <!-- Department -->
+            <div>
+                <label for="department">Department's Name</label>
+                <div class="select-wrap">
+                    <select id="department" name="department" required>
+                        <option value="">Normal distribution</option>
+                        <!-- ==============================
+                             4) აქ ჩასვი დეპარტამენტების სია
+                        ============================== -->
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="orthopedics">Orthopedics</option>
+                    </select>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team2.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Jenni
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
+
+            <!-- Phone -->
+            <div>
+                <label for="phone">Phone Number</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="XXXXXXXXXX"
+                    value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>"
+                    required>
+            </div>
+
+            <!-- Symptoms -->
+            <div>
+                <label for="symptoms">Symptoms</label>
+                <input
+                    type="text"
+                    id="symptoms"
+                    name="symptoms"
+                    value="<?= htmlspecialchars($_POST['symptoms'] ?? '') ?>">
+            </div>
+
+            <!-- Date -->
+            <div>
+                <label for="date">Choose Date</label>
+                <div class="date-wrap">
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        value="<?= htmlspecialchars($_POST['date'] ?? date('Y-m-d')) ?>"
+                        min="<?= date('Y-m-d') ?>"
+                        required>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team3.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Morco
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- end team section -->
+        <button type="submit" class="btn">SUBMIT NOW</button>
 
-
-  <!-- client section -->
-  <section class="client_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          <span>Testimonial</span>
-        </h2>
-      </div>
-    </div>
-    <div class="container px-0">
-      <div id="customCarousel2" class="carousel  carousel-fade" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Morijorch
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Rochak
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Brad Johns
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy, editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel_btn-box">
-          <a class="carousel-control-prev" href="#customCarousel2" role="button" data-slide="prev">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#customCarousel2" role="button" data-slide="next">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end client section -->
-
-  <?php contactSection($contactTitle, $contactForm, $contactButton, $contactImage); ?>
-  <?php infoSection($info); ?>
-  <?php footerSection($footer); ?>
-
-  
-
+    </form>
+</div>
 </body>
-
 </html>
