@@ -1,416 +1,329 @@
 <?php
-include 'data.php';
-include 'functions.php';
-include 'components.php';
+// footer.php - Mico Medical Website Footer
+
+$address = [
+    'location' => 'Location',
+    'phone'    => '+01 1234567890',
+    'email'    => 'demo@gmail.com',
+];
+
+$useful_links = [
+    ['label' => 'Home',       'href' => '#', 'active' => true],
+    ['label' => 'About',      'href' => '#'],
+    ['label' => 'Treatment',  'href' => '#'],
+    ['label' => 'Doctors',    'href' => '#'],
+    ['label' => 'Testimonial','href' => '#'],
+    ['label' => 'Contact us', 'href' => '#'],
+];
+
+$latest_posts = [
+    ['title' => 'Normal distribution', 'img' => 'img/post1.jpg'],
+    ['title' => 'Normal distribution', 'img' => 'img/post2.jpg'],
+];
+
+$news = [
+    ['title' => 'Normal distribution', 'img' => 'img/news1.jpg'],
+    ['title' => 'Normal distribution', 'img' => 'img/news2.jpg'],
+];
+
+$social_links = [
+    'facebook'  => '#',
+    'twitter'   => '#',
+    'linkedin'  => '#',
+    'instagram' => '#',
+];
+
+$year = date('Y');
 ?>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mico – Footer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <title>Mico</title>
+        :root {
+            --bg:       #2b2b2b;
+            --bg-light: #333333;
+            --accent:   #00bfa5;
+            --text:     #cccccc;
+            --white:    #ffffff;
+            --border:   #444444;
+        }
 
+        body {
+            background: var(--bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+        }
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        /* ── Newsletter bar ── */
+        .footer-newsletter {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            padding: 0 30px;
+        }
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+        .footer-newsletter .logo-box {
+            background: var(--white);
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 140px;
+        }
 
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+        .footer-newsletter .logo-box img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
 
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+        .footer-newsletter .logo-box span {
+            color: #333;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
 
+        .footer-newsletter form {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 18px 30px;
+            border-bottom: 1px solid var(--border);
+            margin-left: 30px;
+        }
+
+        .footer-newsletter form input[type="email"] {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .footer-newsletter form input[type="email"]::placeholder {
+            color: #888;
+        }
+
+        .footer-newsletter form button {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .footer-newsletter form button:hover { opacity: 0.8; }
+
+        /* ── Main footer grid ── */
+        .footer-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 50px 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Section heading */
+        .footer-col h4 {
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .footer-col h4::before {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        /* Address */
+        .footer-address ul { list-style: none; }
+        .footer-address ul li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .footer-address ul li i { color: var(--text); width: 16px; }
+
+        .footer-social { margin-top: 20px; display: flex; gap: 12px; }
+        .footer-social a {
+            color: var(--accent);
+            font-size: 1.1rem;
+            transition: opacity .2s;
+        }
+        .footer-social a:hover { opacity: 0.7; }
+
+        /* Useful links */
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 10px; }
+        .footer-links ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: color .2s;
+        }
+        .footer-links ul li a:hover,
+        .footer-links ul li a.active { color: var(--accent); }
+
+        /* Posts / News */
+        .post-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .post-item img {
+            width: 70px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: var(--bg-light);
+            flex-shrink: 0;
+        }
+        .post-item span {
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        /* ── Bottom bar ── */
+        .footer-bottom {
+            text-align: center;
+            padding: 18px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .footer-main { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 560px) {
+            .footer-main { grid-template-columns: 1fr; }
+            .footer-newsletter { flex-direction: column; }
+            .footer-newsletter form { margin-left: 0; padding: 14px 0; }
+        }
+    </style>
 </head>
-
 <body>
 
-  <div class="hero_area">
-    
-    
+<footer>
 
-    <?php headerSection($header); ?>
-    <?php sliderSection($sliderData); ?>
-
-
-    
-  
-
-
-  <!-- book section -->
-
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <form>
-            <h4>
-              BOOK <span>APPOINTMENT</span>
-            </h4>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPatientName">Patient Name </label>
-                <input type="text" class="form-control" id="inputPatientName" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDoctorName">Doctor's Name</label>
-                <select name="" class="form-control wide" id="inputDoctorName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDepartmentName">Department's Name</label>
-                <select name="" class="form-control wide" id="inputDepartmentName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPhone">Phone Number</label>
-                <input type="number" class="form-control" id="inputPhone" placeholder="XXXXXXXXXX">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputSymptoms">Symptoms</label>
-                <input type="text" class="form-control" id="inputSymptoms" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDate">Choose Date </label>
-                <div class="input-group date" id="inputDate" data-date-format="mm-dd-yyyy">
-                  <input type="text" class="form-control" readonly>
-                  <span class="input-group-addon date_icon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="btn-box">
-              <button type="submit" class="btn ">Submit Now</button>
-            </div>
-          </form>
+    <!-- Newsletter -->
+    <div class="footer-newsletter">
+        <div class="logo-box">
+            <!-- Replace src with your actual logo -->
+            <img src="img/logo.png" alt="Mico Logo" onerror="this.style.display='none'">
+            <span>Mico</span>
         </div>
-      </div>
+        <form action="subscribe.php" method="POST">
+            <input type="email" name="email" placeholder="Your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
     </div>
-  </section>
 
+    <!-- Main columns -->
+    <div class="footer-main">
 
-  <!-- end book section -->
+        <!-- ADDRESS -->
+        <div class="footer-col footer-address">
+            <h4>Address</h4>
+            <ul>
+                <li>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <?= htmlspecialchars($address['location']) ?>
+                </li>
+                <li>
+                    <i class="fas fa-phone"></i>
+                    Call <?= htmlspecialchars($address['phone']) ?>
+                </li>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <?= htmlspecialchars($address['email']) ?>
+                </li>
+            </ul>
+            <div class="footer-social">
+                <?php foreach ($social_links as $platform => $url): ?>
+                    <a href="<?= htmlspecialchars($url) ?>" target="_blank" aria-label="<?= ucfirst($platform) ?>">
+                        <i class="fab fa-<?= $platform ?>"></i>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
 
-  <?php aboutSection($about); ?>
+        <!-- USEFUL LINKS -->
+        <div class="footer-col footer-links">
+            <h4>Useful Link</h4>
+            <ul>
+                <?php foreach ($useful_links as $link): ?>
+                    <li>
+                        <a href="<?= htmlspecialchars($link['href']) ?>"
+                           class="<?= !empty($link['active']) ? 'active' : '' ?>">
+                            <?= htmlspecialchars($link['label']) ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
 
+        <!-- LATEST POSTS -->
+        <div class="footer-col">
+            <h4>Latest Posts</h4>
+            <?php foreach ($latest_posts as $post): ?>
+                <div class="post-item">
+                    <img src="<?= htmlspecialchars($post['img']) ?>"
+                         alt="<?= htmlspecialchars($post['title']) ?>">
+                    <span><?= htmlspecialchars($post['title']) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-  
+        <!-- NEWS -->
+        <div class="footer-col">
+            <h4>News</h4>
+            <?php foreach ($news as $item): ?>
+                <div class="post-item">
+                    <img src="<?= htmlspecialchars($item['img']) ?>"
+                         alt="<?= htmlspecialchars($item['title']) ?>">
+                    <span><?= htmlspecialchars($item['title']) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-
-  <!-- treatment section -->
-
-  <section class="treatment_section layout_padding">
-    <div class="side_img">
-      <img src="images/treatment-side-img.jpg" alt="">
     </div>
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Hospital <span>Treatment</span>
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Nephrologist Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t2.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Eye Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t3.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Pediatrician Clinic
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t4.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Parental Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+        <p>&copy; <?= $year ?> All Rights Reserved By Free Html Templates</p>
     </div>
-  </section>
 
-  <!-- end treatment section -->
-
-  <!-- team section -->
-
-  <section class="team_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Our <span>Doctors</span>
-        </h2>
-      </div>
-      <div class="carousel-wrap ">
-        <div class="owl-carousel team_carousel">
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team1.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Hennry
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team2.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Jenni
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team3.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Morco
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end team section -->
-
-
-  <!-- client section -->
-  <section class="client_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          <span>Testimonial</span>
-        </h2>
-      </div>
-    </div>
-    <div class="container px-0">
-      <div id="customCarousel2" class="carousel  carousel-fade" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Morijorch
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Rochak
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Brad Johns
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy, editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel_btn-box">
-          <a class="carousel-control-prev" href="#customCarousel2" role="button" data-slide="prev">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#customCarousel2" role="button" data-slide="next">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end client section -->
-
-  <?php contactSection($contactTitle, $contactForm, $contactButton, $contactImage); ?>
-  <?php infoSection($info); ?>
-  <?php footerSection($footer); ?>
-
-  
+</footer>
 
 </body>
-
 </html>
+```
