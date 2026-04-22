@@ -1,416 +1,485 @@
 <?php
-include 'data.php';
-include 'functions.php';
-include 'components.php';
+// ============================================================
+// Medical Clinic Website - index.php
+// ============================================================
+
+// --- Data Configuration ---
+$site_name = "Mico";
+$contact_phone = "+01 123455678990";
+$contact_email = "demo@gmail.com";
+$contact_location = "Location";
+
+$nav_links = [
+    ["label" => "HOME",       "href" => "#",        "active" => false],
+    ["label" => "ABOUT",      "href" => "#about",   "active" => false],
+    ["label" => "TREATMENT",  "href" => "#treatment","active" => false],
+    ["label" => "DOCTORS",    "href" => "#doctors",  "active" => true],
+    ["label" => "TESTIMONIAL","href" => "#testimonial","active" => false],
+    ["label" => "CONTACT US", "href" => "#contact",  "active" => false],
+];
+
+$doctors = [
+    [
+        "name"       => "Dr. Jenni",
+        "degree"     => "MBBS",
+        "specialty"  => "General Physician",
+        "image"      => "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop&crop=face",
+        "facebook"   => "#",
+        "twitter"    => "#",
+        "linkedin"   => "#",
+        "instagram"  => "#",
+    ],
+    [
+        "name"       => "Dr. Morco",
+        "degree"     => "MBBS",
+        "specialty"  => "Surgeon",
+        "image"      => "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face",
+        "facebook"   => "#",
+        "twitter"    => "#",
+        "linkedin"   => "#",
+        "instagram"  => "#",
+    ],
+    [
+        "name"       => "Dr. Hennry",
+        "degree"     => "MBBS",
+        "specialty"  => "Cardiologist",
+        "image"      => "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face",
+        "facebook"   => "#",
+        "twitter"    => "#",
+        "linkedin"   => "#",
+        "instagram"  => "#",
+    ],
+    [
+        "name"       => "Dr. Sarah",
+        "degree"     => "MBBS",
+        "specialty"  => "Pediatrician",
+        "image"      => "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&h=400&fit=crop&crop=face",
+        "facebook"   => "#",
+        "twitter"    => "#",
+        "linkedin"   => "#",
+        "instagram"  => "#",
+    ],
+];
+
+$footer_links = [
+    ["label" => "Home",       "href" => "#",         "active" => false],
+    ["label" => "About",      "href" => "#about",    "active" => false],
+    ["label" => "Treatment",  "href" => "#treatment","active" => false],
+    ["label" => "Doctors",    "href" => "#doctors",  "active" => true],
+    ["label" => "Testimonial","href" => "#testimonial","active" => false],
+    ["label" => "Contact us", "href" => "#contact",  "active" => false],
+];
+
+$latest_posts = [
+    ["title" => "Normal distribution", "image" => "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=60&h=60&fit=crop"],
+    ["title" => "Normal distribution", "image" => "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=60&h=60&fit=crop"],
+];
+
+$news_items = [
+    ["title" => "Normal distribution", "image" => "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=60&h=60&fit=crop"],
+    ["title" => "Normal distribution", "image" => "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=60&h=60&fit=crop"],
+];
+
+// Handle newsletter subscription (POST)
+$subscribe_message = "";
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"])) {
+    $email = filter_var(trim($_POST["email"]), FILTER_VALIDATE_EMAIL);
+    if ($email) {
+        // TODO: save $email to DB or mailing list
+        $subscribe_message = "Thank you for subscribing!";
+    } else {
+        $subscribe_message = "Please enter a valid email address.";
+    }
+}
 ?>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><?= htmlspecialchars($site_name) ?> – Medical Clinic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        /* ---- CSS Variables ---- */
+        :root {
+            --teal:    #00c9a7;
+            --teal-dk: #00a98a;
+            --dark:    #222222;
+            --dark2:   #2d2d2d;
+            --white:   #ffffff;
+            --gray:    #f5f5f5;
+            --text:    #444444;
+            --radius:  10px;
+            --shadow:  0 8px 30px rgba(0,0,0,.12);
+        }
 
-  <title>Mico</title>
+        /* ---- Reset ---- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Nunito', sans-serif; color: var(--text); background: var(--white); }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { display: block; max-width: 100%; }
 
+        /* ---- TOP BAR ---- */
+        .topbar {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 7px 0;
+            text-align: center;
+            font-size: .82rem;
+            color: #555;
+        }
+        .topbar span { margin: 0 14px; }
+        .topbar i { margin-right: 4px; color: var(--teal); }
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        /* ---- NAVBAR ---- */
+        .navbar {
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            height: 72px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.07);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+        .navbar .brand img { width: 44px; height: 44px; border-radius: 50%; }
+        .navbar nav { display: flex; gap: 28px; }
+        .navbar nav a {
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            color: #333;
+            transition: color .2s;
+        }
+        .navbar nav a:hover,
+        .navbar nav a.active { color: var(--teal); }
+        .navbar .nav-actions { display: flex; gap: 16px; align-items: center; }
+        .navbar .nav-actions a {
+            font-size: .82rem;
+            font-weight: 700;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .navbar .nav-actions a:hover { color: var(--teal); }
+        .navbar .search-btn { cursor: pointer; color: #444; font-size: 1rem; }
+        .navbar .search-btn:hover { color: var(--teal); }
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+        /* ---- DOCTORS SECTION ---- */
+        #doctors {
+            background: var(--teal);
+            padding: 60px 20px 70px;
+            text-align: center;
+        }
+        #doctors h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 40px;
+            letter-spacing: .02em;
+        }
+        #doctors h2 span { color: var(--white); }
 
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+        /* Carousel wrapper */
+        .carousel-wrap {
+            position: relative;
+            max-width: 960px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            gap: 22px;
+            transition: transform .45s cubic-bezier(.4,0,.2,1);
+        }
 
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+        /* Doctor card */
+        .doctor-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            min-width: 280px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow);
+            transition: transform .3s, box-shadow .3s;
+        }
+        .doctor-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,.18);
+        }
+        .doctor-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+        .doctor-card .info {
+            padding: 16px 12px 20px;
+        }
+        .doctor-card .info h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+        .doctor-card .info .degree {
+            color: var(--teal);
+            font-size: .88rem;
+            font-weight: 700;
+            margin: 3px 0 12px;
+        }
+        .doctor-card .socials { display: flex; justify-content: center; gap: 12px; }
+        .doctor-card .socials a {
+            color: #777;
+            font-size: .9rem;
+            transition: color .2s;
+        }
+        .doctor-card .socials a:hover { color: var(--teal); }
 
+        /* Carousel buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: .9rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s, color .2s;
+            z-index: 10;
+        }
+        .carousel-btn:hover { background: var(--teal); color: var(--white); }
+        .carousel-btn.prev { left: -20px; }
+        .carousel-btn.next { right: -20px; }
+
+        /* ---- FOOTER ---- */
+        footer {
+            background: var(--dark);
+            color: #ccc;
+        }
+        /* Newsletter strip */
+        .newsletter {
+            background: var(--dark2);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 30px 60px;
+        }
+        .newsletter .brand-box {
+            background: var(--white);
+            border-radius: var(--radius);
+            width: 90px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .newsletter .brand-box img { width: 48px; }
+        .newsletter .brand-box span {
+            font-size: .75rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-top: 4px;
+        }
+        .newsletter form {
+            flex: 1;
+            display: flex;
+            border-bottom: 2px solid var(--teal);
+            padding-bottom: 6px;
+        }
+        .newsletter form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #aaa;
+            font-size: .9rem;
+            font-family: inherit;
+        }
+        .newsletter form input::placeholder { color: #666; }
+        .newsletter form button {
+            background: none;
+            border: none;
+            color: var(--teal);
+            font-size: .82rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .newsletter form button:hover { color: var(--white); }
+        .subscribe-msg {
+            padding: 8px 60px;
+            font-size: .85rem;
+            color: var(--teal);
+        }
+
+        /* Footer grid */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding: 50px 60px 40px;
+        }
+        .footer-col h4 {
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            color: var(--white);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-col h4::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--teal);
+            border-radius: 2px;
+        }
+        .footer-col .address-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: .84rem;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+        .footer-col .address-item i { color: var(--teal); margin-top: 2px; }
+        .footer-socials { display: flex; gap: 10px; margin-top: 14px; }
+        .footer-socials a {
+            color: #aaa;
+            font-size: 1rem;
+            transition: color .2s;
+        }
+        .footer-socials a:hover { color: var(--teal); }
+        .footer-col ul li {
+            margin-bottom: 9px;
+            font-size: .85rem;
+        }
+        .footer-col ul a { color: #aaa; transition: color .2s; }
+        .footer-col ul a:hover, .footer-col ul a.active { color: var(--teal); }
+
+        /* News / Latest posts */
+        .mini-post {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .mini-post img {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .mini-post span { font-size: .83rem; color: #aaa; }
+
+        /* Footer bottom */
+        .footer-bottom {
+            text-align: center;
+            padding: 14px;
+            font-size: .78rem;
+            color: #555;
+            border-top: 1px solid #333;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .navbar nav { display: none; }
+        }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; padding: 30px 20px; }
+            .newsletter { padding: 20px; flex-wrap: wrap; }
+            .doctor-card { min-width: 240px; }
+        }
+    </style>
 </head>
-
 <body>
 
-  <div class="hero_area">
-    
-    
-
-    <?php headerSection($header); ?>
-    <?php sliderSection($sliderData); ?>
 
 
-    
-  
 
 
-  <!-- book section -->
+<!-- ===== DOCTORS SECTION ===== -->
+<section id="doctors">
+    <h2>OUR <span>DOCTORS</span></h2>
 
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <form>
-            <h4>
-              BOOK <span>APPOINTMENT</span>
-            </h4>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPatientName">Patient Name </label>
-                <input type="text" class="form-control" id="inputPatientName" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDoctorName">Doctor's Name</label>
-                <select name="" class="form-control wide" id="inputDoctorName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDepartmentName">Department's Name</label>
-                <select name="" class="form-control wide" id="inputDepartmentName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPhone">Phone Number</label>
-                <input type="number" class="form-control" id="inputPhone" placeholder="XXXXXXXXXX">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputSymptoms">Symptoms</label>
-                <input type="text" class="form-control" id="inputSymptoms" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDate">Choose Date </label>
-                <div class="input-group date" id="inputDate" data-date-format="mm-dd-yyyy">
-                  <input type="text" class="form-control" readonly>
-                  <span class="input-group-addon date_icon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                  </span>
+    <div class="carousel-wrap">
+        <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="Previous">&#8249;</button>
+
+        <div class="carousel-track" id="carouselTrack">
+            <?php foreach ($doctors as $doc): ?>
+            <div class="doctor-card">
+                <img src="<?= htmlspecialchars($doc['image']) ?>"
+                     alt="<?= htmlspecialchars($doc['name']) ?>"
+                     loading="lazy"/>
+                <div class="info">
+                    <h3><?= htmlspecialchars($doc['name']) ?></h3>
+                    <p class="degree"><?= htmlspecialchars($doc['degree']) ?></p>
+                    <div class="socials">
+                        <a href="<?= htmlspecialchars($doc['facebook'])  ?>" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="<?= htmlspecialchars($doc['twitter'])   ?>" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="<?= htmlspecialchars($doc['linkedin'])  ?>" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="<?= htmlspecialchars($doc['instagram']) ?>" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="btn-box">
-              <button type="submit" class="btn ">Submit Now</button>
-            </div>
-          </form>
+            <?php endforeach; ?>
         </div>
-      </div>
+
+        <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="Next">&#8250;</button>
     </div>
-  </section>
+</section>
 
 
-  <!-- end book section -->
+<!-- ===== CAROUSEL SCRIPT ===== -->
+<script>
+    (function () {
+        const track    = document.getElementById('carouselTrack');
+        const cards    = track.querySelectorAll('.doctor-card');
+        const cardW    = () => cards[0].offsetWidth + 22; // width + gap
+        const visible  = () => Math.floor(track.parentElement.offsetWidth / cardW());
+        const total    = cards.length;
+        let   current  = 0;
 
-  <?php aboutSection($about); ?>
+        window.moveCarousel = function (dir) {
+            const max = total - visible();
+            current = Math.max(0, Math.min(current + dir, max));
+            track.style.transform = `translateX(-${current * cardW()}px)`;
+        };
 
-
-  
-
-
-  <!-- treatment section -->
-
-  <section class="treatment_section layout_padding">
-    <div class="side_img">
-      <img src="images/treatment-side-img.jpg" alt="">
-    </div>
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Hospital <span>Treatment</span>
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Nephrologist Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t2.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Eye Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t3.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Pediatrician Clinic
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t4.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Parental Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end treatment section -->
-
-  <!-- team section -->
-
-  <section class="team_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Our <span>Doctors</span>
-        </h2>
-      </div>
-      <div class="carousel-wrap ">
-        <div class="owl-carousel team_carousel">
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team1.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Hennry
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team2.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Jenni
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team3.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Morco
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end team section -->
-
-
-  <!-- client section -->
-  <section class="client_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          <span>Testimonial</span>
-        </h2>
-      </div>
-    </div>
-    <div class="container px-0">
-      <div id="customCarousel2" class="carousel  carousel-fade" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Morijorch
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Rochak
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Brad Johns
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy, editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel_btn-box">
-          <a class="carousel-control-prev" href="#customCarousel2" role="button" data-slide="prev">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#customCarousel2" role="button" data-slide="next">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end client section -->
-
-  <?php contactSection($contactTitle, $contactForm, $contactButton, $contactImage); ?>
-  <?php infoSection($info); ?>
-  <?php footerSection($footer); ?>
-
-  
+        // Keyboard support
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') window.moveCarousel(1);
+            if (e.key === 'ArrowLeft')  window.moveCarousel(-1);
+        });
+    })();
+</script>
 
 </body>
-
 </html>
