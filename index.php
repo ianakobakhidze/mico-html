@@ -1,416 +1,322 @@
 <?php
-include 'data.php';
-include 'functions.php';
-include 'components.php';
+// header.php - Mico Medical Website Header
+
+$contact_info = [
+    'phone'    => '+01 123455678990',
+    'email'    => 'demo@gmail.com',
+    'location' => 'Location',
+];
+
+$nav_links = [
+    ['label' => 'Home',       'href' => 'index.php',       'active' => true],
+    ['label' => 'About',      'href' => 'about.php'],
+    ['label' => 'Treatment',  'href' => 'treatment.php'],
+    ['label' => 'Doctors',    'href' => 'doctors.php'],
+    ['label' => 'Testimonial','href' => 'testimonial.php'],
+    ['label' => 'Contact Us', 'href' => 'contact.php'],
+];
+
+// Current page detection
+$current_page = basename($_SERVER['PHP_SELF']);
 ?>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mico – Header</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <title>Mico</title>
+        :root {
+            --accent:   #00bfa5;
+            --accent-dark: #009688;
+            --white:    #ffffff;
+            --topbar-text: #555555;
+            --topbar-bg: #ffffff;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        /* ── Top info bar ── */
+        .header-topbar {
+            background: var(--topbar-bg);
+            padding: 8px 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            border-bottom: 1px solid #eee;
+        }
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+        .header-topbar a {
+            text-decoration: none;
+            color: var(--topbar-text);
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: color .2s;
+        }
 
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+        .header-topbar a:hover { color: var(--accent); }
 
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+        .header-topbar a i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
 
+        /* ── Main navbar ── */
+        .header-navbar {
+            background: var(--accent);
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* Logo box */
+        .header-logo {
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px;
+            min-width: 120px;
+            text-decoration: none;
+        }
+
+        .header-logo img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .header-logo span {
+            font-weight: 700;
+            color: #333;
+            font-size: 0.95rem;
+            margin-top: 3px;
+        }
+
+        /* Nav links */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            flex: 1;
+            padding: 0 20px;
+            gap: 5px;
+        }
+
+        .header-nav li a {
+            display: block;
+            padding: 20px 18px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+
+        .header-nav li a:hover,
+        .header-nav li a.active {
+            background: rgba(0,0,0,0.12);
+        }
+
+        /* Auth + Search */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0 16px;
+            margin-left: auto;
+        }
+
+        .header-actions a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 20px 12px;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+
+        .header-actions a:hover { background: rgba(0,0,0,0.12); }
+
+        .header-search-btn {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 20px 14px;
+            transition: background .2s;
+        }
+
+        .header-search-btn:hover { background: rgba(0,0,0,0.12); }
+
+        /* Search overlay */
+        .search-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-overlay.active { display: flex; }
+
+        .search-box {
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            overflow: hidden;
+            width: min(500px, 90vw);
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px 18px;
+            font-size: 1rem;
+        }
+
+        .search-box button {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Mobile hamburger */
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            padding: 0 18px;
+            cursor: pointer;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 960px) {
+            .header-nav { display: none; flex-direction: column; width: 100%; padding: 0; gap: 0; }
+            .header-nav.open { display: flex; }
+            .header-nav li a { padding: 14px 20px; }
+
+            .header-navbar { flex-wrap: wrap; }
+            .header-actions { display: none; }
+            .hamburger { display: block; margin-left: auto; }
+
+            .header-topbar { padding: 8px 16px; flex-wrap: wrap; gap: 12px; }
+        }
+    </style>
 </head>
-
 <body>
 
-  <div class="hero_area">
-    
-    
+<header>
 
-    <?php headerSection($header); ?>
-    <?php sliderSection($sliderData); ?>
-
-
-    
-  
-
-
-  <!-- book section -->
-
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <form>
-            <h4>
-              BOOK <span>APPOINTMENT</span>
-            </h4>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPatientName">Patient Name </label>
-                <input type="text" class="form-control" id="inputPatientName" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDoctorName">Doctor's Name</label>
-                <select name="" class="form-control wide" id="inputDoctorName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDepartmentName">Department's Name</label>
-                <select name="" class="form-control wide" id="inputDepartmentName">
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                  <option value="Normal distribution ">Normal distribution </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row ">
-              <div class="form-group col-lg-4">
-                <label for="inputPhone">Phone Number</label>
-                <input type="number" class="form-control" id="inputPhone" placeholder="XXXXXXXXXX">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputSymptoms">Symptoms</label>
-                <input type="text" class="form-control" id="inputSymptoms" placeholder="">
-              </div>
-              <div class="form-group col-lg-4">
-                <label for="inputDate">Choose Date </label>
-                <div class="input-group date" id="inputDate" data-date-format="mm-dd-yyyy">
-                  <input type="text" class="form-control" readonly>
-                  <span class="input-group-addon date_icon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="btn-box">
-              <button type="submit" class="btn ">Submit Now</button>
-            </div>
-          </form>
-        </div>
-      </div>
+    <!-- Top contact bar -->
+    <div class="header-topbar">
+        <a href="tel:<?= preg_replace('/\s+/', '', $contact_info['phone']) ?>">
+            <i class="fas fa-phone-alt"></i>
+            Call : <?= htmlspecialchars($contact_info['phone']) ?>
+        </a>
+        <a href="mailto:<?= htmlspecialchars($contact_info['email']) ?>">
+            <i class="fas fa-envelope"></i>
+            Email : <?= htmlspecialchars($contact_info['email']) ?>
+        </a>
+        <a href="#">
+            <i class="fas fa-map-marker-alt"></i>
+            <?= htmlspecialchars($contact_info['location']) ?>
+        </a>
     </div>
-  </section>
 
+    <!-- Main navigation -->
+    <nav class="header-navbar">
 
-  <!-- end book section -->
+        <!-- Logo -->
+        <a href="index.php" class="header-logo">
+            <img src="img/logo.png" alt="Mico Logo" onerror="this.style.display='none'">
+            <span>Mico</span>
+        </a>
 
-  <?php aboutSection($about); ?>
+        <!-- Nav links -->
+        <ul class="header-nav" id="mainNav">
+            <?php foreach ($nav_links as $link):
+                $is_active = ($current_page === basename($link['href'])) || (!empty($link['active']) && $current_page === 'header.php');
+            ?>
+                <li>
+                    <a href="<?= htmlspecialchars($link['href']) ?>"
+                       class="<?= $is_active ? 'active' : '' ?>">
+                        <?= htmlspecialchars($link['label']) ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
-
-  
-
-
-  <!-- treatment section -->
-
-  <section class="treatment_section layout_padding">
-    <div class="side_img">
-      <img src="images/treatment-side-img.jpg" alt="">
-    </div>
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Hospital <span>Treatment</span>
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Nephrologist Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
+        <!-- Auth + Search -->
+        <div class="header-actions">
+            <a href="login.php"><i class="fas fa-user"></i> Login</a>
+            <a href="signup.php"><i class="fas fa-user-plus"></i> Sign Up</a>
+            <button class="header-search-btn" onclick="toggleSearch()" aria-label="Search">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t2.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Eye Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t3.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Pediatrician Clinic
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="box ">
-            <div class="img-box">
-              <img src="images/t4.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Parental Care
-              </h4>
-              <p>
-                alteration in some form, by injected humour, or randomised words which don't look even slightly e sure there isn't anything
-              </p>
-              <a href="">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- end treatment section -->
+        <!-- Mobile hamburger -->
+        <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
 
-  <!-- team section -->
+    </nav>
 
-  <section class="team_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Our <span>Doctors</span>
-        </h2>
-      </div>
-      <div class="carousel-wrap ">
-        <div class="owl-carousel team_carousel">
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team1.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Hennry
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team2.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Jenni
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="images/team3.jpg" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Morco
-                </h5>
-                <h6>
-                  MBBS
-                </h6>
-                <div class="social_box">
-                  <a href="">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+</header>
 
-  <!-- end team section -->
+<!-- Search overlay -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+    <form class="search-box" action="search.php" method="GET">
+        <input type="text" name="q" placeholder="Search..." autofocus>
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+</div>
 
+<script>
+    function toggleNav() {
+        document.getElementById('mainNav').classList.toggle('open');
+    }
 
-  <!-- client section -->
-  <section class="client_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          <span>Testimonial</span>
-        </h2>
-      </div>
-    </div>
-    <div class="container px-0">
-      <div id="customCarousel2" class="carousel  carousel-fade" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Morijorch
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Rochak
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-              </p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="box">
-              <div class="client_info">
-                <div class="client_name">
-                  <h5>
-                    Brad Johns
-                  </h5>
-                  <h6>
-                    Default model text
-                  </h6>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-              <p>
-                Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy, editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Variouseditors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel_btn-box">
-          <a class="carousel-control-prev" href="#customCarousel2" role="button" data-slide="prev">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#customCarousel2" role="button" data-slide="next">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end client section -->
+    function toggleSearch() {
+        document.getElementById('searchOverlay').classList.toggle('active');
+    }
 
-  <?php contactSection($contactTitle, $contactForm, $contactButton, $contactImage); ?>
-  <?php infoSection($info); ?>
-  <?php footerSection($footer); ?>
+    function closeSearch(e) {
+        if (e.target === document.getElementById('searchOverlay')) {
+            document.getElementById('searchOverlay').classList.remove('active');
+        }
+    }
 
-  
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.getElementById('searchOverlay').classList.remove('active');
+        }
+    });
+</script>
 
 </body>
-
 </html>
