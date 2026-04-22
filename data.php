@@ -1,239 +1,33 @@
 <?php
 
-$header = [
-    "contacts" => [
-        [
-            "link" => "#",
-            "icon" => "fa fa-phone",
-            "text" => "Call : +01 123455678990"
-        ],
-        [
-            "link" => "#",
-            "icon" => "fa fa-envelope",
-            "text" => "Email : demo@gmail.com"
-        ],
-        [
-            "link" => "#",
-            "icon" => "fa fa-map-marker",
-            "text" => "Location"
-        ]
-    ],
+$site_name = "Mico";
+$contact_phone = "+01 123455678990";
+$contact_email = "demo@gmail.com";
+$contact_location = "Location";
 
-    "logo" => "images/logo.png",
-
-    "menu" => [
-        [
-            "title" => "Home",
-            "link" => "index.php"
-        ],
-        [
-            "title" => "About",
-            "link" => "about.php"
-        ],
-        [
-            "title" => "Treatment",
-            "link" => "treatment.php"
-        ],
-        [
-            "title" => "Doctors",
-            "link" => "doctor.php"
-        ],
-        [
-            "title" => "Testimonial",
-            "link" => "testimonial.php"
-        ],
-        [
-            "title" => "Contact Us",
-            "link" => "contact.php"
-        ]
-    ],
-
-    "auth" => [
-        [
-            "title" => "Login",
-            "icon" => "fa fa-user"
-        ],
-        [
-            "title" => "Sign Up",
-            "icon" => "fa fa-user"
-        ]
-    ]
-
-];
-
-
-
-
-$about = [
-  "image" => "images/about-img.jpg",
-  "title" => "About",
-  "highlight" => "Hospital",
-  "text" => "has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors...",
-  "button_text" => "Read More",
-  "button_link" => "#"
-];
-
-
-
-
-
-
-$info = [
-
-  "logo" => "images/logo.png",
-  "logo_link" => "#",
-
-  "subscribe" => [
-    "placeholder" => "Your email",
-    "button" => "Subscribe",
-    "action" => "#"
-  ],
-
-  "address" => [
-    "title" => "Address",
-
-    "contact" => [
-      [
-        "icon" => "fa fa-map-marker",
-        "text" => "Location",
-        "link" => "#"
-      ],
-      [
-        "icon" => "fa fa-phone",
-        "text" => "Call +01 1234567890",
-        "link" => "#"
-      ],
-      [
-        "icon" => "fa fa-envelope",
-        "text" => "demo@gmail.com",
-        "link" => "#"
-      ]
-    ],
-
-    "social" => [
-      ["icon" => "fa fa-facebook", "link" => "#"],
-      ["icon" => "fa fa-twitter", "link" => "#"],
-      ["icon" => "fa fa-linkedin", "link" => "#"],
-      ["icon" => "fa fa-instagram", "link" => "#"]
-    ]
-  ],
-
-  "links" => [
-    "title" => "Useful link",
-    "items" => [
-      ["text" => "Home", "link" => "index.php", "active" => ""],
-      ["text" => "About", "link" => "about.php", "active" => "active"],
-      ["text" => "Treatment", "link" => "treatment.php", "active" => ""],
-      ["text" => "Doctors", "link" => "doctor.php", "active" => ""],
-      ["text" => "Testimonial", "link" => "testimonial.php", "active" => ""],
-      ["text" => "Contact us", "link" => "contact.php", "active" => ""]
-    ]
-  ],
-
-  "posts" => [
-    "title" => "LATEST POSTS",
-    "items" => [
-      [
-        "img" => "images/post1.jpg",
-        "text" => "Normal distribution"
-      ],
-      [
-        "img" => "images/post2.jpg",
-        "text" => "Normal distribution"
-      ]
-    ]
-  ],
-
-  "news" => [
-    "title" => "News",
-    "items" => [
-      [
-        "img" => "images/post3.jpg",
-        "text" => "Normal distribution"
-      ],
-      [
-        "img" => "images/post4.png",
-        "text" => "Normal distribution"
-      ]
-    ]
-  ]
-
-];
-
-
-$footer = [
-  "text" => "All Rights Reserved By",
-  "link" => "https://html.design/",
-  "link_text" => "Free Html Templates"
-];
-
-
-
-$contactTitle = "Get In Touch";
-
-$contactForm = [
+$doctors = [
     [
-        "type" => "text",
-        "placeholder" => "Full Name"
+        "name" => "Dr. Jenni",
+        "degree" => "MBBS",
+        "specialty" => "General Physician",
+        "image" => "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
     ],
     [
-        "type" => "email",
-        "placeholder" => "Email"
+        "name" => "Dr. Morco",
+        "degree" => "MBBS",
+        "specialty" => "Surgeon",
+        "image" => "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
     ],
     [
-        "type" => "text",
-        "placeholder" => "Phone Number"
+        "name" => "Dr. Hennry",
+        "degree" => "MBBS",
+        "specialty" => "Cardiologist",
+        "image" => "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
     ],
     [
-        "type" => "text",
-        "placeholder" => "Message",
-        "class" => "message-box"
-    ]
+        "name" => "Dr. Sarah",
+        "degree" => "MBBS",
+        "specialty" => "Pediatrician",
+        "image" => "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400",
+    ],
 ];
-
-$contactButton = "SEND";
-$contactImage = "images/contact-img.jpg";
-
-
-
-
-
-
-$sliderData = [
-    "dot_image" => "images/dots.png",
-    "prev_image" => "images/prev.png",
-    "next_image" => "images/next.png",
-    "slides" => [
-        [
-            "title" => "Mico",
-            "subtitle" => "Hospital",
-            "text" => "when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to",
-            "link" => "",
-            "link_text" => "Contact Us",
-            "image" => "images/slider-img.jpg"
-        ],
-        [
-            "title" => "Mico",
-            "subtitle" => "Hospital",
-            "text" => "when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to",
-            "link" => "",
-            "link_text" => "Contact Us",
-            "image" => "images/slider-img.jpg"
-        ],
-        [
-            "title" => "Mico",
-            "subtitle" => "Hospital",
-            "text" => "when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to",
-            "link" => "",
-            "link_text" => "Contact Us",
-            "image" => "images/slider-img.jpg"
-        ]
-    ]
-];
-
-
-
-
-
-
-
